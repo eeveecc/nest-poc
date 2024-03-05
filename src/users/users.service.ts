@@ -50,6 +50,5 @@ export class UsersService {
         this.users = this.users.filter(user => user.id !== id);
         return removedUser;
     }
-
     
 }
