@@ -1,18 +1,19 @@
 import { Injectable } from '@nestjs/common';
 import { CreateUserDTO } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
+import { NotFoundException } from '@nestjs/common';
 
 @Injectable()
 export class UsersService {
 
     // mock data
-    private ROLES = ["INTERN", "ENGINEER", "ADMIN"]
+    private ROLES = ['INTERN', 'ENGINEER', 'ADMIN']
     private users = [
-        {"id": 1, "name": "Alice Smith", "email": "alice.smith@example.com", "role": "INTERN"},
-        {"id": 2, "name": "Bob Johnson", "email": "bob.johnson@example.com", "role": "ADMIN"},
-        {"id": 3, "name": "Cindy Brown", "email": "cindy.brown@example.com", "role": "ENGINEER"},
-        {"id": 4, "name": "Dan Wilson", "email": "dan.wilson@example.com", "role": "INTERN"},
-        {"id": 5, "name": "Eva Davis", "email": "eva.davis@example.com", "role": "ENGINEER"}
+        {'id': 1, 'name': 'Alice Smith', 'email': 'alice.smith@example.com', 'role': 'INTERN'},
+        {'id': 2, 'name': 'Bob Johnson', 'email': 'bob.johnson@example.com', 'role': 'ADMIN'},
+        {'id': 3, 'name': 'Cindy Brown', 'email': 'cindy.brown@example.com', 'role': 'ENGINEER'},
+        {'id': 4, 'name': 'Dan Wilson', 'email': 'dan.wilson@example.com', 'role': 'INTERN'},
+        {'id': 5, 'name': 'Eva Davis', 'email': 'eva.davis@example.com', 'role': 'ENGINEER'}
     ]
     
     findAll(role?: string) {
@@ -23,7 +24,8 @@ export class UsersService {
     }
 
     findOne(id: number) {
-        return this.users.find(user => user.id === id);
+        const foundUser = this.users.find(user => user.id === id);
+        if (!foundUser) throw new NotFoundException("User is not found.");
     }
 
     create(createUserDTO: CreateUserDTO) {
