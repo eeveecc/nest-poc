@@ -1,6 +1,7 @@
 import { NestFactory, HttpAdapterHost } from '@nestjs/core'
 import { AppModule } from './app.module'
-import { LoggerService } from './logger/logger.service'
+// import { LoggerService } from './logger/logger.service'
+import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
 import { AllExceptionFilter } from './all-exceptions.filter';
 
 async function bootstrap() {
@@ -17,6 +18,14 @@ async function bootstrap() {
 
   // custom prefix
   app.setGlobalPrefix('api')
+
+  const config = new DocumentBuilder()
+    .setTitle('Nest POC')
+    .setVersion('1.0')
+    .addTag('API Endpoints')
+    .build();
+  const document = SwaggerModule.createDocument(app, config);
+  SwaggerModule.setup('api', app, document);
 
   // cors TODO: add local origins
   // app.enableCors(); 
